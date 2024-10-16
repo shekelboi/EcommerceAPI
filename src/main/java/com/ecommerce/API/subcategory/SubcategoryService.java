@@ -9,11 +9,8 @@ import java.util.Optional;
 @Service
 public class SubcategoryService {
 
-    private final SubcategoryRepository subcategoryRepository;
     @Autowired
-    public SubcategoryService(SubcategoryRepository subcategoryRepository) {
-        this.subcategoryRepository = subcategoryRepository;
-    }
+    private SubcategoryRepository subcategoryRepository;
 
     public List<Subcategory> getSubcategories() {
         return this.subcategoryRepository.findAll();
