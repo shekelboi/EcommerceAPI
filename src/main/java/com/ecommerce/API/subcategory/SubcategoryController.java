@@ -25,10 +25,10 @@ public class SubcategoryController {
         return subcategory.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));
     }
 
-    @PostMapping("/subcategory/")
-    @PutMapping("/subcategory/")
-    public boolean addOrUpdateSubcategory(@RequestBody Subcategory subcategory) {
-        return subcategoryService.addSubcategory(subcategory);
+    @PostMapping("category/{categoryId}/subcategory/")
+    @PutMapping("category/{categoryId}/subcategory/")
+    public boolean addOrUpdateSubcategory(@PathVariable long categoryId, @RequestBody Subcategory subcategory) {
+        return subcategoryService.addSubcategory(categoryId, subcategory);
     }
 
     @DeleteMapping("/subcategory/{id}")

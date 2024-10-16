@@ -1,5 +1,7 @@
 package com.ecommerce.API.subcategory;
 
+import com.ecommerce.API.category.Category;
+import com.ecommerce.API.category.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
@@ -12,6 +14,8 @@ public class SubcategoryService {
 
     @Autowired
     private SubcategoryRepository subcategoryRepository;
+    @Autowired
+    private CategoryService categoryService;
 
     public List<Subcategory> getSubcategories() {
         return subcategoryRepository.findAll();
@@ -21,7 +25,12 @@ public class SubcategoryService {
         return subcategoryRepository.findAll().stream().filter(s -> s.getId() == id).findFirst();
     }
 
-    public boolean addSubcategory(Subcategory subcategory) {
+    public boolean addSubcategory(Long categoryId, Subcategory subcategory) {
+        Optional<Category> category = categoryService.getCategory(categoryId);
+        if (category.isEmpty()) {
+            return false;
+        }
+        subcategory.setCategory(category.get());
         try {
             subcategoryRepository.save(subcategory);
             return true;

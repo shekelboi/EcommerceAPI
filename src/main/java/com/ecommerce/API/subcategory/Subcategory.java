@@ -1,6 +1,12 @@
 package com.ecommerce.API.subcategory;
 
+import com.ecommerce.API.category.Category;
+import com.ecommerce.API.category.CategoryService;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.Optional;
 
 @Entity
 @Table(name="subcategory")
@@ -8,17 +14,17 @@ public class Subcategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
-    @Column(name="category_id")
-    private long categoryId;
     private String name;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    Category category;
 
     public Subcategory() {
     }
 
-    public Subcategory(long id, long categoryId, String name) {
+    public Subcategory(long id, String name) {
         this.id = id;
-        this.categoryId = categoryId;
         this.name = name;
     }
 
@@ -26,8 +32,16 @@ public class Subcategory {
         return id;
     }
 
+    @JsonProperty("categoryId")
     public long getCategoryId() {
-        return categoryId;
+        return category.getId();
+    }
+
+    public void setCategoryId(long categoryId) {
+        category = new Category(categoryId);
+    }
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     public String getName() {
