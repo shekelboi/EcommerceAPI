@@ -1,6 +1,7 @@
 package com.ecommerce.API.subcategory;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,10 +14,36 @@ public class SubcategoryService {
     private SubcategoryRepository subcategoryRepository;
 
     public List<Subcategory> getSubcategories() {
-        return this.subcategoryRepository.findAll();
+        return subcategoryRepository.findAll();
     }
 
     public Optional<Subcategory> getSubcategory(long id) {
-        return this.subcategoryRepository.findAll().stream().filter(s -> s.getId() == id).findFirst();
+        return subcategoryRepository.findAll().stream().filter(s -> s.getId() == id).findFirst();
+    }
+    public boolean deleteSubcategory(long id) {
+        Optional<Subcategory> subcategory = getSubcategory(id);
+        if (subcategory.isPresent()) {
+            try {
+                subcategoryRepository.delete(subcategory.get());
+                return true;
+            } catch (Exception e) {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
+    public boolean deleteSubcategory(Subcategory subcategory) {
+        Example<Subcategory> subcategoryExample = Example.of(subcategory);
+        if (!subcategoryRepository.exists(subcategoryExample)) {
+            return false;
+        }
+        try {
+            subcategoryRepository.delete(subcategory);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }
