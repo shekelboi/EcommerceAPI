@@ -20,6 +20,16 @@ public class SubcategoryService {
     public Optional<Subcategory> getSubcategory(long id) {
         return subcategoryRepository.findAll().stream().filter(s -> s.getId() == id).findFirst();
     }
+
+    public boolean addSubcategory(Subcategory subcategory) {
+        try {
+            subcategoryRepository.save(subcategory);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     public boolean deleteSubcategory(long id) {
         Optional<Subcategory> subcategory = getSubcategory(id);
         if (subcategory.isPresent()) {

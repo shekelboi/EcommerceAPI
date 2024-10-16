@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 @Table(name="subcategory")
 public class Subcategory {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "subcategory_id_seq")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(name="category_id")
