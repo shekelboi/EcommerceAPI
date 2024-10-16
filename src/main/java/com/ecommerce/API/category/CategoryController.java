@@ -25,8 +25,7 @@ public class CategoryController {
         return subcategory.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));
     }
 
-    @PostMapping("/category/")
-    @PutMapping("/category/")
+    @RequestMapping(path="/category/", method = {RequestMethod.POST, RequestMethod.PUT})
     public boolean addOrUpdateCategory(@RequestBody Category category) {
         return categoryService.addCategory(category);
     }

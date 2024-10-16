@@ -36,10 +36,6 @@ public class Subcategory {
     public long getCategoryId() {
         return category.getId();
     }
-
-    public void setCategoryId(long categoryId) {
-        category = new Category(categoryId);
-    }
     public void setCategory(Category category) {
         this.category = category;
     }
