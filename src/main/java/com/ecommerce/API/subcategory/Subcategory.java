@@ -1,12 +1,16 @@
 package com.ecommerce.API.subcategory;
 
 import com.ecommerce.API.category.Category;
+import com.ecommerce.API.product.Product;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @NoArgsConstructor
@@ -22,6 +26,10 @@ public class Subcategory {
     @JoinColumn(name = "category_id")
     @JsonBackReference
     Category category;
+
+    @OneToMany(mappedBy = "subcategory")
+    @JsonManagedReference
+    Set<Product> products = new HashSet<>();
 
     public Subcategory(long id, String name) {
         this.id = id;
