@@ -1,6 +1,7 @@
 package com.ecommerce.API.subcategory;
 
 import com.ecommerce.API.category.Category;
+import com.ecommerce.API.product.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +30,10 @@ public class SubcategoryController {
         return subcategory.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));
     }
 
-
+    @GetMapping("/subcategory/{subcategoryName}/products")
+    public List<Subcategory> getProductsInCategory(@PathVariable String subcategoryName) {
+        return this.subcategoryRepository.findByName(subcategoryName);
+    }
 
     // Different approach
     @RequestMapping(path="/subcategory/", method = {RequestMethod.POST, RequestMethod.PUT})
