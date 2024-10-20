@@ -18,11 +18,14 @@ public class Category {
     @OneToMany(mappedBy = "category")
     @JsonManagedReference
     private final List<Subcategory> subcategories = new ArrayList<>();
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     @JsonProperty
     private String name;
+    
     @JsonProperty
     private String logo;
 
