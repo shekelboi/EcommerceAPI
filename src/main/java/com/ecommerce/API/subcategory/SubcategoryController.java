@@ -1,6 +1,5 @@
 package com.ecommerce.API.subcategory;
 
-import com.ecommerce.API.category.Category;
 import com.ecommerce.API.product.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,13 +29,13 @@ public class SubcategoryController {
         return subcategory.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));
     }
 
-    @GetMapping("/subcategory/{subcategoryName}/products")
-    public List<Subcategory> getProductsInCategory(@PathVariable String subcategoryName) {
-        return this.subcategoryRepository.findByName(subcategoryName);
+    @GetMapping("/subcategory/{id}/products")
+    public List<Product> getProductsInSubcategory(@PathVariable Long id) {
+        return subcategoryService.getProductsInSubcategory(id);
     }
 
     // Different approach
-    @RequestMapping(path="/subcategory/", method = {RequestMethod.POST, RequestMethod.PUT})
+    @RequestMapping(path = "/subcategory/", method = {RequestMethod.POST, RequestMethod.PUT})
     public boolean addOrUpdateSubcategoryDifferent(@RequestBody Subcategory subcategory) {
         try {
             subcategoryRepository.save(subcategory);
@@ -46,7 +45,7 @@ public class SubcategoryController {
         }
     }
 
-    @RequestMapping(path="/category/{categoryId}/subcategory/", method = {RequestMethod.POST, RequestMethod.PUT})
+    @RequestMapping(path = "/category/{categoryId}/subcategory/", method = {RequestMethod.POST, RequestMethod.PUT})
     public boolean addOrUpdateSubcategory(@PathVariable long categoryId, @RequestBody Subcategory subcategory) {
         return subcategoryService.addSubcategory(categoryId, subcategory);
     }

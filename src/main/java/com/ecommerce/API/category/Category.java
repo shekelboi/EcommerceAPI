@@ -7,14 +7,17 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
 @Entity
-@Table(name="category")
+@Table(name = "category")
 public class Category {
+    @OneToMany(mappedBy = "category")
+    @JsonManagedReference
+    private final List<Subcategory> subcategories = new ArrayList<>();
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -22,11 +25,6 @@ public class Category {
     private String name;
     @JsonProperty
     private String logo;
-
-
-    @OneToMany(mappedBy = "category")
-    @JsonManagedReference
-    private final Set<Subcategory> subcategories = new HashSet<>();
 
     public Category(long categoryId) {
         this.id = categoryId;

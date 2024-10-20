@@ -1,6 +1,5 @@
 package com.ecommerce.API.product;
 
-import com.ecommerce.API.category.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

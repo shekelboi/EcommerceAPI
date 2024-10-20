@@ -1,5 +1,6 @@
 package com.ecommerce.API.category;
 
+import com.ecommerce.API.product.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +26,12 @@ public class CategoryController {
         return subcategory.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));
     }
 
-    @RequestMapping(path="/category/", method = {RequestMethod.POST, RequestMethod.PUT})
+    @GetMapping("/category/{id}/products")
+    public List<Product> getProductsInCategory(@PathVariable Long id) {
+        return categoryService.getProductsInCategory(id);
+    }
+
+    @RequestMapping(path = "/category/", method = {RequestMethod.POST, RequestMethod.PUT})
     public boolean addOrUpdateCategory(@RequestBody Category category) {
         return categoryService.addCategory(category);
     }

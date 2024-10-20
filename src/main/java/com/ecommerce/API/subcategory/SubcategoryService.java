@@ -2,6 +2,7 @@ package com.ecommerce.API.subcategory;
 
 import com.ecommerce.API.category.Category;
 import com.ecommerce.API.category.CategoryService;
+import com.ecommerce.API.product.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,12 @@ public class SubcategoryService {
     }
 
     public Optional<Subcategory> getSubcategory(long id) {
-        return subcategoryRepository.findAll().stream().filter(s -> s.getId() == id).findFirst();
+        return subcategoryRepository.findById(id);
+    }
+
+    public List<Product> getProductsInSubcategory(long id) {
+        Optional<Subcategory> subcategory = subcategoryRepository.findById(id);
+        return subcategory.map(Subcategory::getProducts).orElse(null);
     }
 
     public boolean addSubcategory(Long categoryId, Subcategory subcategory) {

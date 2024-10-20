@@ -1,11 +1,15 @@
 package com.ecommerce.API.category;
 
+import com.ecommerce.API.product.Product;
+import com.ecommerce.API.subcategory.Subcategory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CategoryService {
@@ -19,6 +23,15 @@ public class CategoryService {
 
     public Optional<Category> getCategory(long id) {
         return categoryRepository.findAll().stream().filter(s -> s.getId() == id).findFirst();
+    }
+
+    public List<Product> getProductsInCategory(Long id) {
+        Optional<Category> category = categoryRepository.findById(id);
+        if (category.isEmpty()) {
+            return new ArrayList<>();
+        }
+        List<Subcategory> subcategories = category.get().getSubcategories();
+        return subcategories.stream().flatMap(s -> s.getProducts().stream()).collect(Collectors.toList());
     }
 
     public boolean addCategory(Category category) {

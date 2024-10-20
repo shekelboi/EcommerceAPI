@@ -2,14 +2,10 @@ package com.ecommerce.API.product;
 
 import com.ecommerce.API.subcategory.Subcategory;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.HashSet;
-import java.util.Set;
 
 @Getter
 @NoArgsConstructor
