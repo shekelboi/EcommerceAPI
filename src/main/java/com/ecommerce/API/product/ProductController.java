@@ -8,21 +8,22 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 public class ProductController {
+    @Autowired
+    private ProductService productService;
     @Autowired
     private ProductRepository productRepository;
 
     @GetMapping("/products")
     public List<Product> getProducts() {
-        return this.productRepository.findAll();
+        return productService.getAllProducts();
     }
 
-    @GetMapping("/product/{publicId}/")
+    @GetMapping("/product/{publicId}")
     public ResponseEntity<Product> getProductByPublicId(@PathVariable String publicId) {
-        Optional<Product> product = productRepository.findProductByPublicId(publicId);
-        return product.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));
+        return productService.getProductByPublicId(publicId).map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));
     }
+
 }
