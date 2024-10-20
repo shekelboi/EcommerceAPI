@@ -1,5 +1,6 @@
 package com.ecommerce.API.subcategory;
 
+import com.ecommerce.API.category.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,9 @@ public class SubcategoryController {
     @Autowired
     private SubcategoryService subcategoryService;
 
+    @Autowired
+    private SubcategoryRepository subcategoryRepository;
+
     @GetMapping("/subcategories")
     public List<Subcategory> getSubcategories() {
         return subcategoryService.getSubcategories();
@@ -23,6 +27,19 @@ public class SubcategoryController {
     public ResponseEntity<Subcategory> getSubcategory(@PathVariable long id) {
         Optional<Subcategory> subcategory = subcategoryService.getSubcategory(id);
         return subcategory.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));
+    }
+
+
+
+    // Different approach
+    @RequestMapping(path="/subcategory/", method = {RequestMethod.POST, RequestMethod.PUT})
+    public boolean addOrUpdateSubcategoryDifferent(@RequestBody Subcategory subcategory) {
+        try {
+            subcategoryRepository.save(subcategory);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     @RequestMapping(path="/category/{categoryId}/subcategory/", method = {RequestMethod.POST, RequestMethod.PUT})
