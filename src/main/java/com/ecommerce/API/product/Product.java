@@ -2,7 +2,6 @@ package com.ecommerce.API.product;
 
 import com.ecommerce.API.subcategory.Subcategory;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,26 +16,19 @@ public class Product {
     private long id;
 
     @Column(name = "public_id")
-    @JsonProperty()
     private String publicId;
 
-    @JsonProperty
     private String name;
 
-    @JsonProperty
     private String description;
 
-    @JsonProperty
     private String slug;
 
     @Column(name = "image_id")
-    @JsonProperty
     private String imageId;
 
-    @JsonProperty
     private Double price;
 
-    @JsonProperty
     private int stock;
 
     @ManyToOne(fetch = FetchType.LAZY)

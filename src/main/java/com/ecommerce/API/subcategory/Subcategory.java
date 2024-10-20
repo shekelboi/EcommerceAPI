@@ -21,12 +21,15 @@ public class Subcategory {
     @JoinColumn(name = "category_id")
     @JsonBackReference
     Category category;
+    
     @OneToMany(mappedBy = "subcategory")
     @JsonManagedReference
     List<Product> products = new ArrayList<>();
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     private String name;
 
     public Subcategory(long id, String name) {
