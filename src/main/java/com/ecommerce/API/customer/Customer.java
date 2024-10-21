@@ -1,5 +1,6 @@
 package com.ecommerce.API.customer;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -27,10 +28,14 @@ public class Customer {
     @Column(name = "default_address_id")
     private Long defaultAddressId;
 
+    @Transient
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private String password;
+
+    @JsonIgnore
     private byte[] salt;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @JsonIgnore
     @Column(name = "password_hash")
     private byte[] passwordHash;
 }
