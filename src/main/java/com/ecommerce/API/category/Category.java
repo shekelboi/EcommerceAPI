@@ -2,6 +2,7 @@ package com.ecommerce.API.category;
 
 import com.ecommerce.API.subcategory.Subcategory;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,6 +17,7 @@ import java.util.List;
 public class Category {
     @OneToMany(mappedBy = "category")
     @JsonManagedReference
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private final List<Subcategory> subcategories = new ArrayList<>();
 
     @Id

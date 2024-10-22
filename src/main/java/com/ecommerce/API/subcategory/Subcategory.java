@@ -17,11 +17,11 @@ import java.util.List;
 @Entity
 @Table(name = "subcategory")
 public class Subcategory {
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id")
     @JsonBackReference
     Category category;
-    
+
     @OneToMany(mappedBy = "subcategory")
     @JsonManagedReference
     List<Product> products = new ArrayList<>();
