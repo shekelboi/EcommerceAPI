@@ -1,10 +1,9 @@
 package com.ecommerce.API.customer;
 
+import com.ecommerce.API.response.BooleanResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,7 +18,12 @@ public class CustomerController {
     }
 
     @PostMapping("/customer/")
-    public boolean addCustomer(@RequestBody Customer customer) {
-        return customerService.createCustomer(customer);
+    public ResponseEntity<BooleanResponse> addCustomer(@RequestBody Customer customer) {
+        return ResponseEntity.ok(new BooleanResponse(customerService.createCustomer(customer)));
+    }
+
+    @PostMapping("/customer/authenticate")
+    public ResponseEntity<BooleanResponse> authenticateCustomer(@RequestParam String email, @RequestParam String password) {
+        return ResponseEntity.ok(new BooleanResponse(customerService.authenticateCustomer(email, password)));
     }
 }

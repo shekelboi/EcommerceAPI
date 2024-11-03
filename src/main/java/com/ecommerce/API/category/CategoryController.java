@@ -1,6 +1,7 @@
 package com.ecommerce.API.category;
 
 import com.ecommerce.API.product.Product;
+import com.ecommerce.API.response.BooleanResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,17 +33,18 @@ public class CategoryController {
     }
 
     @RequestMapping(path = "/category/", method = {RequestMethod.POST, RequestMethod.PUT})
-    public boolean addOrUpdateCategory(@RequestBody Category category) {
-        return categoryService.addCategory(category);
+    public ResponseEntity<BooleanResponse> addOrUpdateCategory(@RequestBody Category category) {
+
+        return ResponseEntity.ok(new BooleanResponse(categoryService.addCategory(category)));
     }
 
     @DeleteMapping("/category/{id}")
-    public boolean deleteCategoryById(@PathVariable long id) {
-        return categoryService.deleteCategory(id);
+    public ResponseEntity<BooleanResponse> deleteCategoryById(@PathVariable long id) {
+        return ResponseEntity.ok(new BooleanResponse(categoryService.deleteCategory(id)));
     }
 
     @DeleteMapping("/category/")
-    public boolean deleteCategory(@RequestBody Category category) {
-        return categoryService.deleteCategory(category);
+    public ResponseEntity<BooleanResponse> deleteCategory(@RequestBody Category category) {
+        return ResponseEntity.ok(new BooleanResponse(categoryService.deleteCategory(category)));
     }
 }

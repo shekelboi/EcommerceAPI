@@ -1,6 +1,7 @@
 package com.ecommerce.API.subcategory;
 
 import com.ecommerce.API.product.Product;
+import com.ecommerce.API.response.BooleanResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,12 +37,12 @@ public class SubcategoryController {
 
     // Different approach
     @RequestMapping(path = "/subcategory/", method = {RequestMethod.POST, RequestMethod.PUT})
-    public boolean addOrUpdateSubcategoryDifferent(@RequestBody Subcategory subcategory) {
+    public ResponseEntity<BooleanResponse> addOrUpdateSubcategoryDifferent(@RequestBody Subcategory subcategory) {
         try {
             subcategoryRepository.save(subcategory);
-            return true;
+            return ResponseEntity.ok(new BooleanResponse(true));
         } catch (Exception e) {
-            return false;
+            return ResponseEntity.status(403).body(new BooleanResponse(true));
         }
     }
 

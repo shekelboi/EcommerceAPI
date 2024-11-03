@@ -8,4 +8,8 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
     @Transactional
     @Query(value = "select create_customer(:firstName, :lastName, :email, :telephone, :password, :defaultAddressId)", nativeQuery = true)
     boolean createCustomer(String firstName, String lastName, String email, String telephone, String password, Long defaultAddressId);
+
+    @Transactional
+    @Query(value = "select check_password(:email, :password)", nativeQuery = true)
+    boolean authenticateCustomer(String email, String password);
 }
