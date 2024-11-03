@@ -12,17 +12,17 @@ public class CustomerController {
     @Autowired
     private CustomerService customerService;
 
-    @GetMapping("/customers")
+    @GetMapping("/api/admin/customers")
     public List<Customer> getCustomers() {
         return customerService.getCustomers();
     }
 
-    @PostMapping("/customer/")
+    @PostMapping("/api/admin/customer/")
     public ResponseEntity<BooleanResponse> addCustomer(@RequestBody Customer customer) {
         return ResponseEntity.ok(new BooleanResponse(customerService.createCustomer(customer)));
     }
 
-    @PostMapping("/customer/authenticate")
+    @PostMapping("/api/public/customer/authenticate")
     public ResponseEntity<BooleanResponse> authenticateCustomer(@RequestParam String email, @RequestParam String password) {
         return ResponseEntity.ok(new BooleanResponse(customerService.authenticateCustomer(email, password)));
     }

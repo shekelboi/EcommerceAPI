@@ -17,7 +17,7 @@ public class ProductController {
     @Autowired
     private ProductRepository productRepository;
 
-    @GetMapping("/products")
+    @GetMapping("/api/public/products")
     public List<Product> getProducts(@RequestParam(required = false) String keyword) {
         if (keyword != null) {
             return productService.getProductsByKeyword(keyword);
@@ -26,7 +26,7 @@ public class ProductController {
         }
     }
 
-    @GetMapping("/product/{publicId}")
+    @GetMapping("/api/public/product/{publicId}")
     public ResponseEntity<Product> getProductByPublicId(@PathVariable String publicId) {
         return productService.getProductByPublicId(publicId).map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));
     }

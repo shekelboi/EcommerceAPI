@@ -19,24 +19,24 @@ public class SubcategoryController {
     @Autowired
     private SubcategoryRepository subcategoryRepository;
 
-    @GetMapping("/subcategories")
+    @GetMapping("/api/public/subcategories")
     public List<Subcategory> getSubcategories() {
         return subcategoryService.getSubcategories();
     }
 
-    @GetMapping("/subcategory/{id}")
+    @GetMapping("/api/public/subcategory/{id}")
     public ResponseEntity<Subcategory> getSubcategory(@PathVariable long id) {
         Optional<Subcategory> subcategory = subcategoryService.getSubcategory(id);
         return subcategory.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));
     }
 
-    @GetMapping("/subcategory/{id}/products")
+    @GetMapping("/api/public/subcategory/{id}/products")
     public List<Product> getProductsInSubcategory(@PathVariable Long id) {
         return subcategoryService.getProductsInSubcategory(id);
     }
 
     // Different approach
-    @RequestMapping(path = "/subcategory/", method = {RequestMethod.POST, RequestMethod.PUT})
+    @RequestMapping(path = "/api/admin/subcategory/", method = {RequestMethod.POST, RequestMethod.PUT})
     public ResponseEntity<BooleanResponse> addOrUpdateSubcategoryDifferent(@RequestBody Subcategory subcategory) {
         try {
             subcategoryRepository.save(subcategory);
@@ -46,17 +46,17 @@ public class SubcategoryController {
         }
     }
 
-    @RequestMapping(path = "/category/{categoryId}/subcategory/", method = {RequestMethod.POST, RequestMethod.PUT})
+    @RequestMapping(path = "/api/admin/category/{categoryId}/subcategory/", method = {RequestMethod.POST, RequestMethod.PUT})
     public boolean addOrUpdateSubcategory(@PathVariable long categoryId, @RequestBody Subcategory subcategory) {
         return subcategoryService.addSubcategory(categoryId, subcategory);
     }
 
-    @DeleteMapping("/subcategory/{id}")
+    @DeleteMapping("/api/admin/subcategory/{id}")
     public boolean deleteSubcategoryById(@PathVariable long id) {
         return subcategoryService.deleteSubcategory(id);
     }
 
-    @DeleteMapping("/subcategory/")
+    @DeleteMapping("/api/admin/subcategory/")
     public boolean deleteSubcategory(@RequestBody Subcategory subcategory) {
         return subcategoryService.deleteSubcategory(subcategory);
     }

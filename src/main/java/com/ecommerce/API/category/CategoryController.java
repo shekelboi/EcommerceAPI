@@ -16,34 +16,33 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
-    @GetMapping("/categories")
+    @GetMapping("/api/public/categories")
     public List<Category> getCategories() {
         return categoryService.getCategories();
     }
 
-    @GetMapping("/category/{id}")
+    @GetMapping("/api/public/category/{id}")
     public ResponseEntity<Category> getCategory(@PathVariable long id) {
         Optional<Category> subcategory = categoryService.getCategory(id);
         return subcategory.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));
     }
 
-    @GetMapping("/category/{id}/products")
+    @GetMapping("/api/public/category/{id}/products")
     public List<Product> getProductsInCategory(@PathVariable Long id) {
         return categoryService.getProductsInCategory(id);
     }
 
-    @RequestMapping(path = "/category/", method = {RequestMethod.POST, RequestMethod.PUT})
+    @RequestMapping(path = "/api/admin/category/", method = {RequestMethod.POST, RequestMethod.PUT})
     public ResponseEntity<BooleanResponse> addOrUpdateCategory(@RequestBody Category category) {
-
         return ResponseEntity.ok(new BooleanResponse(categoryService.addCategory(category)));
     }
 
-    @DeleteMapping("/category/{id}")
+    @DeleteMapping("/api/admin/category/{id}")
     public ResponseEntity<BooleanResponse> deleteCategoryById(@PathVariable long id) {
         return ResponseEntity.ok(new BooleanResponse(categoryService.deleteCategory(id)));
     }
 
-    @DeleteMapping("/category/")
+    @DeleteMapping("/api/admin/category/")
     public ResponseEntity<BooleanResponse> deleteCategory(@RequestBody Category category) {
         return ResponseEntity.ok(new BooleanResponse(categoryService.deleteCategory(category)));
     }
