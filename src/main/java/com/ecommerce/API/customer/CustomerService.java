@@ -15,12 +15,12 @@ public class CustomerService {
         return customerRepository.findAll();
     }
 
-    boolean createCustomer(Customer customer) {
+    public boolean createCustomer(Customer customer) {
         return customerRepository.createCustomer(customer.getFirstName(), customer.getLastName(),
                 customer.getEmail(), customer.getTelephone(), customer.getPassword(), customer.getDefaultAddressId());
     }
 
-    boolean authenticateCustomer(String email, String password) {
+    public boolean authenticateCustomer(String email, String password) {
         return customerRepository.authenticateCustomer(email, password);
     }
 }
