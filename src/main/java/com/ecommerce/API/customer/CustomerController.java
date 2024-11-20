@@ -22,9 +22,10 @@ public class CustomerController {
         return ResponseEntity.ok(new BooleanResponse(customerService.createCustomer(customer)));
     }
 
-    @PostMapping("/api/public/customer/authenticate")
-    public ResponseEntity<BooleanResponse> authenticateCustomer(@RequestParam String email, @RequestParam String password) {
-        return ResponseEntity.ok(new BooleanResponse(customerService.authenticateCustomer(email, password)));
+    @PostMapping("/api/public/customer/login")
+    public ResponseEntity<String> login(@RequestParam String email, @RequestParam String password) {
+//        return ResponseEntity.ok(new BooleanResponse(true));
+        return ResponseEntity.ok(customerService.login(email, password));
     }
 
     @PostMapping("/api/user/getme")

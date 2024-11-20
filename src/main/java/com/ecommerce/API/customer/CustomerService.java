@@ -1,6 +1,10 @@
 package com.ecommerce.API.customer;
 
+import com.ecommerce.API.security.JWTService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,6 +15,12 @@ public class CustomerService {
     @Autowired
     private CustomerRepository customerRepository;
 
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private JWTService jwtService;
+
     public List<Customer> getCustomers() {
         return customerRepository.findAll();
     }
@@ -20,7 +30,11 @@ public class CustomerService {
                 customer.getEmail(), customer.getTelephone(), customer.getPassword(), customer.getDefaultAddressId());
     }
 
-    boolean authenticateCustomer(String email, String password) {
-        return customerRepository.authenticateCustomer(email, password);
+    String login(String email, String password) {
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
+        if (authentication.isAuthenticated()) {
+            return jwtService.generateToken(email);
+        }
+        return "Failure!";
     }
 }
