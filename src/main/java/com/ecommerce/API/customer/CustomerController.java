@@ -26,4 +26,9 @@ public class CustomerController {
     public ResponseEntity<BooleanResponse> authenticateCustomer(@RequestParam String email, @RequestParam String password) {
         return ResponseEntity.ok(new BooleanResponse(customerService.authenticateCustomer(email, password)));
     }
+
+    @PostMapping("/api/user/getme")
+    public ResponseEntity<String> getMe() {
+        return ResponseEntity.ok("Successfully reached.");
+    }
 }
