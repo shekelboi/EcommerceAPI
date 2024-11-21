@@ -3,6 +3,7 @@ package com.ecommerce.API.customer;
 import com.ecommerce.API.response.BooleanResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,6 +31,6 @@ public class CustomerController {
 
     @PostMapping("/api/user/getme")
     public ResponseEntity<String> getMe() {
-        return ResponseEntity.ok("Successfully reached.");
+        return ResponseEntity.ok("Successfully reached: " + SecurityContextHolder.getContext().getAuthentication().getName());
     }
 }
