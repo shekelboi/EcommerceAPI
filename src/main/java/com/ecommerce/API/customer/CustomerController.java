@@ -25,8 +25,13 @@ public class CustomerController {
 
     @PostMapping("/api/public/customer/login")
     public ResponseEntity<String> login(@RequestParam String email, @RequestParam String password) {
-//        return ResponseEntity.ok(new BooleanResponse(true));
         return ResponseEntity.ok(customerService.login(email, password));
+    }
+
+    @PostMapping("/api/public/customer/logout")
+    public ResponseEntity<BooleanResponse> logout() {
+        String token = (String) SecurityContextHolder.getContext().getAuthentication().getCredentials();
+        return ResponseEntity.ok(new BooleanResponse(customerService.logout(token)));
     }
 
     @PostMapping("/api/user/getme")

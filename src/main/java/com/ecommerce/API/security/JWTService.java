@@ -14,14 +14,12 @@ import org.springframework.stereotype.Service;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import java.security.NoSuchAlgorithmException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class JWTService {
     private final SecretKey secretKey;
-
+    private final Set<String> invalidatedTokens = new HashSet<>();
     @Autowired
     private ApplicationContext context;
 
@@ -51,6 +49,10 @@ public class JWTService {
 
 
     public UsernamePasswordAuthenticationToken validateToken(String token, Claims claims) {
+        if (invalidatedTokens.contains(token)) {
+            return null;
+        }
+
         // If the expiration date was before now
         if (claims.getExpiration() == null || claims.getExpiration().before(new Date())) {
             return null;
@@ -64,7 +66,7 @@ public class JWTService {
             return null;
         }
 
-        return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+        return new UsernamePasswordAuthenticationToken(userDetails, token, userDetails.getAuthorities());
     }
 
     public Claims extractClaims(String token) throws SignatureException {
@@ -73,5 +75,16 @@ public class JWTService {
                 .build()
                 .parseSignedClaims(token);
         return jws.getPayload();
+    }
+
+    public boolean invalidateToken(String token) {
+        try {
+            // Check if the token is valid by attempting to extract the claims
+            Claims claims = extractClaims(token);
+            invalidatedTokens.add(token);
+        } catch (SignatureException signatureException) {
+            return false;
+        }
+        return true;
     }
 }

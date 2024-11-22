@@ -25,16 +25,20 @@ public class CustomerService {
         return customerRepository.findAll();
     }
 
-    boolean createCustomer(Customer customer) {
+    public boolean createCustomer(Customer customer) {
         return customerRepository.createCustomer(customer.getFirstName(), customer.getLastName(),
                 customer.getEmail(), customer.getTelephone(), customer.getPassword(), customer.getDefaultAddressId());
     }
 
-    String login(String email, String password) {
+    public String login(String email, String password) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
         if (authentication.isAuthenticated()) {
             return jwtService.generateToken(email);
         }
         return "Failure!";
+    }
+
+    public boolean logout(String token) {
+        return jwtService.invalidateToken(token);
     }
 }
